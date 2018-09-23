@@ -1,0 +1,31 @@
+{
+  "name": "witness-essentials-cli",
+  "version": "1.0.0",
+  "description": "CLI commands for Steem Witnesses",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc",
+    "update": "tsc && node dist/commands/update.js",
+    "enable": "tsc && node dist/commands/enable.js",
+    "disable": "tsc && node dist/commands/disable.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/witness-essentials/cli.git"
+  },
+  "author": "therealwolf42",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^10.5.1",
+    "convict": "^4.3.2",
+    "dotenv": "^5.0.0",
+    "dsteem": "^0.10.0",
+    "readline-sync": "^1.4.9",
+    "steem": "^0.7.1",
+    "witness-essentials-package": "^1.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/witness-essentials/cli/issues"
+  },
+  "homepage": "https://github.com/witness-essentials/cli#readme"
+}

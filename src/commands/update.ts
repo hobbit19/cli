@@ -1,0 +1,37 @@
+require('dotenv').config()
+import * as readline from 'readline-sync'
+import * as essentials from 'witness-essentials-package'
+import { update_witness, get_witness } from '../helpers'
+const _g = require('../_g')
+
+let start = async () => {
+  let node = process.argv[2]
+  let res = await get_witness(node)
+  _g.witness_data.props = res.props
+  _g.witness_data.url = res.url
+  _g.ORIG_KEY = res.signing_key
+
+  if(!read()) return
+
+  await update_witness(_g.ORIG_KEY, node)
+  console.log(`Update was sucessful. Exiting now.`)
+}
+
+let read = () => {
+  let witness_url = readline.question(`What should be the witness URL? [${_g.witness_data.url}] : `)
+  let account_creation_fee = Number(readline.question(`How high should be the account creation fee? (number only - without STEEM) [${_g.witness_data.props.account_creation_fee}] : `))
+  let maximum_block_size = Number(readline.question(`How big should be the maximum block size? [${_g.witness_data.props.maximum_block_size}] : `))
+  let sbd_interest_rate = Number(readline.question(`How high should be the SBD interest rate? [${_g.witness_data.props.sbd_interest_rate}] : `))
+
+  if (witness_url) _g.witness_data.url = witness_url
+  if (account_creation_fee && !isNaN(account_creation_fee)) _g.witness_data.props.account_creation_fee = `${account_creation_fee.toFixed(3)} STEEM`
+  if (maximum_block_size && !isNaN(maximum_block_size)) _g.witness_data.props.maximum_block_size = maximum_block_size
+  if (sbd_interest_rate >= 0 && !isNaN(sbd_interest_rate)) _g.witness_data.props.sbd_interest_rate = sbd_interest_rate
+
+  console.log('\nConfiguration:\n----------------')
+  console.log(_g.witness_data)
+  let b = readline.keyInYN(`\nDo you want to update your witness now?`)
+  return b
+}
+
+start()
