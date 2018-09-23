@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc",
-    "update": "tsc && node dist/commands/update.js",
-    "enable": "tsc && node dist/commands/enable.js",
-    "disable": "tsc && node dist/commands/disable.js"
+    "update": "node dist/commands/update.js",
+    "enable": "node dist/commands/enable.js",
+    "disable": "node dist/commands/disable.js"
   },
   "repository": {
     "type": "git",
