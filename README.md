@@ -18,6 +18,14 @@ cp configs/config.example.json configs/config.json
 nano configs/config.json
 ```
 
+#### Config Explanation
+
+- SIGNING_KEYS: Add **all** your signing keys here as pairs. As of HF20, you can now also update your witness with your current private signing key. This is also necessary for updating new properties.
+
+```
+ [{ "public": "STM7..", "private": "5JS.." }, { "public": "STM5..", "private": "5PD.." }, { .. }]
+```
+
 3.) Edit your ENV file (sensitive data)
 ```
 touch .env
@@ -26,6 +34,8 @@ nano .env
 # Add the following lines inside
 ACTIVE_KEY=
 ```
+
+- As of HF20, the private active key is optional and/or only needed if the witness is disabled and you want to enable it again.
 
 ## Start
 
