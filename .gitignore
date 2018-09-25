@@ -14,12 +14,6 @@ results
 tmp
 package-lock.json
 
-# API keys and secrets
-.env
-config.json
-configs/config.json
-configs/config.pricefeed.json
-
 # Dependency directory
 node_modules
 
@@ -34,3 +28,10 @@ Thumbs.db
 # Ignore built ts files
 # dist/**/*
 
+# !!! SENSITIVE - DON'T REMOVE!! EVER!!
+# API keys and secrets
+.env
+config.json
+*config.json
+configs/config.json
+configs/config.pricefeed.json

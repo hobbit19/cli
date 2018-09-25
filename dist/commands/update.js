@@ -10,36 +10,97 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 const readline = require("readline-sync");
+const essentials = require("witness-essentials-package");
 const helpers_1 = require("../helpers");
 const _g = require('../_g');
+let set_properties = true;
+let props = {};
 let start = () => __awaiter(this, void 0, void 0, function* () {
     let node = process.argv[2];
-    let res = yield helpers_1.get_witness(node);
+    let res = yield helpers_1.get_witness({ node });
     _g.witness_data.props = res.props;
     _g.witness_data.url = res.url;
-    _g.ORIG_KEY = res.signing_key;
+    _g.CURRENT_SIGNING_KEY = res.signing_key;
     if (!read())
         return;
-    yield helpers_1.update_witness(_g.ORIG_KEY, node);
+    let transaction_signing_key = essentials.choose_transaction_key(res.signing_key, _g.config.SIGNING_KEYS);
+    if (!transaction_signing_key || _g.CURRENT_SIGNING_KEY.slice(-39) === '1111111111111111111111111111111114T1Anm') {
+        console.log(`!transaction_signing_key`, { set_properties, a: process.env.ACTIVE_KEY });
+        if (set_properties) {
+            return console.error(`Invalid Signing Key Pairs in config. Or witness is disabled, which requires your private active key.`);
+        }
+        else if (!process.env.ACTIVE_KEY) {
+            return console.error(`Invalid Signing Key Pairs in config AND no Private Key in .env`);
+        }
+        else {
+            transaction_signing_key = String(process.env.ACTIVE_KEY);
+            set_properties = false;
+        }
+    }
+    else {
+        set_properties = true;
+    }
+    yield helpers_1.update_witness(res.signing_key, transaction_signing_key, props, { set_properties });
     console.log(`Update was sucessful. Exiting now.`);
 });
 let read = () => {
-    let witness_url = readline.question(`What should be the witness URL? [${_g.witness_data.url}] : `);
-    let account_creation_fee = Number(readline.question(`How high should be the account creation fee? (number only - without STEEM) [${_g.witness_data.props.account_creation_fee}] : `));
-    let maximum_block_size = Number(readline.question(`How big should be the maximum block size? [${_g.witness_data.props.maximum_block_size}] : `));
-    let sbd_interest_rate = Number(readline.question(`How high should be the SBD interest rate? [${_g.witness_data.props.sbd_interest_rate}] : `));
-    if (witness_url)
-        _g.witness_data.url = witness_url;
-    if (account_creation_fee && !isNaN(account_creation_fee))
-        _g.witness_data.props.account_creation_fee = `${account_creation_fee.toFixed(3)} STEEM`;
-    if (maximum_block_size && !isNaN(maximum_block_size))
-        _g.witness_data.props.maximum_block_size = maximum_block_size;
-    if (sbd_interest_rate >= 0 && !isNaN(sbd_interest_rate))
-        _g.witness_data.props.sbd_interest_rate = sbd_interest_rate;
-    console.log('\nConfiguration:\n----------------');
-    console.log(_g.witness_data);
+    let witness_url = readline.question(`witness_url? [${_g.witness_data.url}] : `);
+    let account_creation_fee = readline.question(`account_creation_fee? (number only - without STEEM) [${_g.witness_data.props.account_creation_fee}] : `);
+    let maximum_block_size = readline.question(`maximum_block_size? [${_g.witness_data.props.maximum_block_size}] : `);
+    let sbd_interest_rate = readline.question(`sbd_interest_rate? [${_g.witness_data.props.sbd_interest_rate}] : `);
+    let account_subsidy_budget = Number(readline.question(`account_subsidy_budget? [${_g.witness_data.props.account_subsidy_budget}] : `));
+    let account_subsidy_decay = Number(readline.question(`account_subsidy_decay? [${_g.witness_data.props.account_subsidy_decay}] : `));
+    let new_signing_key = readline.question(`new_signing_key? [${_g.CURRENT_SIGNING_KEY}] : `);
+    if (witness_url) {
+        props.url = _g.witness_data.url = witness_url;
+    }
+    if (account_creation_fee && !isNaN(Number(account_creation_fee))) {
+        props.account_creation_fee = _g.witness_data.props.account_creation_fee = `${Number(account_creation_fee).toFixed(3)} STEEM`;
+    }
+    if (maximum_block_size && !isNaN(Number(maximum_block_size))) {
+        props.maximum_block_size = _g.witness_data.props.maximum_block_size = Number(maximum_block_size);
+    }
+    if (sbd_interest_rate !== '' && sbd_interest_rate >= 0 && sbd_interest_rate !== _g.witness_data.props.sbd_interest_rate && !isNaN(Number(sbd_interest_rate))) {
+        props.sbd_interest_rate = _g.witness_data.props.sbd_interest_rate = Number(sbd_interest_rate);
+    }
+    if (account_subsidy_budget && !isNaN(Number(account_subsidy_budget))) {
+        props.account_subsidy_budget = Number(account_subsidy_budget);
+        set_properties = true;
+    }
+    if (account_subsidy_decay && !isNaN(Number(account_subsidy_decay))) {
+        props.account_subsidy_decay = Number(account_subsidy_decay);
+        set_properties = true;
+    }
+    if (new_signing_key) {
+        props.new_signing_key = new_signing_key;
+        set_properties = true;
+    }
+    console.log(Object.keys(props));
+    if (Object.keys(props).length <= 0) {
+        console.log(`\nNothing to be updated`);
+        process.exit();
+    }
+    console.log('\Changes:\n----------------');
+    console.log(props);
     let b = readline.keyInYN(`\nDo you want to update your witness now?`);
     return b;
 };
 start();
+/*['witness_set_properties',
+  {
+    'extensions': [],
+    'owner': 'holger80',
+    'props': [['key',
+      '02c0ded2bc1f1305fb0faac5e6c03ee3a1924234985427b6167ca569d13df435cf'],
+    ['account_creation_fee',
+      'b80b0000000000000354455354530000'],
+    ['account_subsidy_budget', 'e1020000'],
+    ['account_subsidy_decay', 'b94c0500'],
+    ['maximum_block_size', '00000100'],
+    ['url',
+      '1368747470733a2f2f737465656d69742e636f6d'],
+    ['sbd_exchange_rate',
+      'e8030000000000000354424400000000e8030000000000000354455354530000'],
+    ['sbd_interest_rate', '00000000']]
+  }]*/ 
 //# sourceMappingURL=update.js.map

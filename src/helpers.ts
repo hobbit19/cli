@@ -1,40 +1,59 @@
 import * as essentials from 'witness-essentials-package'
 import * as dsteem from 'dsteem'
 const _g = require('./_g')
-const config = _g.config
 
-export let update_witness = async (key: string, node: string = '', retries = 0) => {
+interface Options {
+  node?: string,
+  retries?: number,
+  set_properties?: boolean
+}
+
+export let update_witness = async (current_signing_key: string, transaction_signing_key: string, props: dsteem.utils.WitnessProps, options: Options = {}) => {
   try {
-    let client = _g.client
-    if(node) client = new dsteem.Client(node, { timeout: 8 * 1000 })
+    if (!options.retries) options.retries = 0
 
-    await essentials.update_witness(client, key, _g.witness_data, process.env.ACTIVE_KEY)
+    let client = _g.client
+    if (options.node) client = new dsteem.Client(options.node, { timeout: 8 * 1000 })
+
+    if (options.set_properties) {
+      await essentials.witness_set_properties(client, _g.witness_data.witness, current_signing_key, props, transaction_signing_key)
+    } else {
+      await essentials.update_witness(client, current_signing_key, _g.witness_data, transaction_signing_key)
+    }
+
   } catch (error) {
     console.error(error)
-    if (retries < 2) {
+    if (options.retries < 2) {
       await essentials.timeout(1)
-      await update_witness(key, node, retries += 1)
+      options.retries += 1
+      await update_witness(current_signing_key, transaction_signing_key, props, options)
     } else {
       failover()
-      await update_witness(key, node, 0)
+      options.retries = 0
+      await update_witness(current_signing_key, transaction_signing_key, props, options)
     }
   }
 }
 
-export let get_witness = async (node: string = '', retries = 0) => {
+export let get_witness = async (options: Options = { retries: 0 }) => {
   try {
-    let client = _g.client
-    if(node) client = new dsteem.Client(node, { timeout: 8 * 1000 })
+    if (!options.retries) options.retries = 0
 
-    return await essentials.get_witness_by_account(client, _g.witness_data.witness)
+    let client = _g.client
+    if (options.node) client = new dsteem.Client(options.node, { timeout: 8 * 1000 })
+
+    let witness = await essentials.get_witness_by_account(client, _g.witness_data.witness)
+    return witness
   } catch (error) {
     console.error(error)
-    if (retries < 2) {
+    if (options.retries < 2) {
       await essentials.timeout(1)
-      await get_witness(node, retries += 1)
+      options.retries += 1
+      await get_witness(options)
     } else {
       failover()
-      await get_witness(node, 0)
+      options.retries = 0
+      await get_witness(options)
     }
   }
 }
