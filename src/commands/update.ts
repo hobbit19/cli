@@ -73,7 +73,7 @@ let read = () => {
     props.new_signing_key = new_signing_key
     set_properties = true
   }
-  console.log(Object.keys(props))
+
   if (Object.keys(props).length <= 0) {
     console.log(`\nNothing to be updated`)
     process.exit()
@@ -86,21 +86,3 @@ let read = () => {
 }
 
 start()
-
-/*['witness_set_properties',
-  {
-    'extensions': [],
-    'owner': 'holger80',
-    'props': [['key',
-      '02c0ded2bc1f1305fb0faac5e6c03ee3a1924234985427b6167ca569d13df435cf'],
-    ['account_creation_fee',
-      'b80b0000000000000354455354530000'],
-    ['account_subsidy_budget', 'e1020000'],
-    ['account_subsidy_decay', 'b94c0500'],
-    ['maximum_block_size', '00000100'],
-    ['url',
-      '1368747470733a2f2f737465656d69742e636f6d'],
-    ['sbd_exchange_rate',
-      'e8030000000000000354424400000000e8030000000000000354455354530000'],
-    ['sbd_interest_rate', '00000000']]
-  }]*/
