@@ -7,5 +7,11 @@
     "https://rpc.buildteam.io",
     "https://steemd.minnowsupportproject.org"
   ],
-  "WITNESS": ""
+  "WITNESS": "",
+  "SIGNING_KEYS": [
+    {
+      "public": "",
+      "private": ""
+    }
+  ]
 }

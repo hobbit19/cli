@@ -18,6 +18,11 @@ let config = convict({
     format: String,
     default: 'witness-name',
     arg: 'witness'
+  },
+  SIGNING_KEYS: {
+    doc: 'Signing key pairs based on public and private',
+    format: Array,
+    default: [ { public: '', private: '' }]
   }
 })
 

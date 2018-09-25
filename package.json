@@ -19,10 +19,10 @@
     "@types/node": "^10.5.1",
     "convict": "^4.3.2",
     "dotenv": "^5.0.0",
-    "dsteem": "^0.10.0",
+    "dsteem": "^0.10.1",
     "readline-sync": "^1.4.9",
     "steem": "^0.7.1",
-    "witness-essentials-package": "^1.0.1"
+    "witness-essentials-package": "^1.0.2"
   },
   "bugs": {
     "url": "https://github.com/witness-essentials/cli/issues"
