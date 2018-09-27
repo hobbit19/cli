@@ -20,6 +20,8 @@ nano configs/config.json
 
 #### Config Explanation
 
+- WITNESS: Add you witness username.
+
 - SIGNING_KEYS: Add **all** your signing keys here as pairs. As of HF20, you can now also update your witness with your current private signing key. This is also necessary for updating new properties.
 
 ```
