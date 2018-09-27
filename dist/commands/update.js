@@ -13,7 +13,7 @@ const readline = require("readline-sync");
 const essentials = require("witness-essentials-package");
 const helpers_1 = require("../helpers");
 const _g = require('../_g');
-let set_properties = true;
+let set_properties = false;
 let props = {};
 let start = () => __awaiter(this, void 0, void 0, function* () {
     let node = process.argv[2];

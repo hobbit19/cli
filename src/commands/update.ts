@@ -6,7 +6,7 @@ const _g = require('../_g')
 
 import * as dsteem from 'dsteem'
 
-let set_properties = true
+let set_properties = false
 let props: any = {}
 let start = async () => {
   let node = process.argv[2]
