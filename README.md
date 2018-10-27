@@ -43,7 +43,7 @@ There are 3 commands you can run. If you want to use a specific RPC_NODE, then y
 
 Active a specific signing-key
 ```
-npm run enable <ACTIVE_KEY> <RPC_NODE>
+npm run enable <SIGNING_KEY> <RPC_NODE>
 ```
 
 Disable your witness directly
