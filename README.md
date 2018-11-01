@@ -26,16 +26,8 @@ nano configs/config.json
  [{ "public": "STM7..", "private": "5JS.." }, { "public": "STM5..", "private": "5PD.." }, { .. }]
 ```
 
-3.) Edit your ENV file (sensitive data)
-```
-touch .env
-nano .env
+- Private Key (Optional):  As of HF20, the private active key is optional and/or only needed if the witness is disabled and you want to enable it again.
 
-# Add the following lines inside
-ACTIVE_KEY=
-```
-
-- As of HF20, the private active key is optional and/or only needed if the witness is disabled and you want to enable it again.
 
 ## Start
 
@@ -43,17 +35,17 @@ There are 3 commands you can run. If you want to use a specific RPC_NODE, then y
 
 Active a specific signing-key
 ```
-npm run enable <SIGNING_KEY> <RPC_NODE>
+npm run enable <SIGNING_KEY> <OPTIONAL_RPC_NODE>
 ```
 
 Disable your witness directly
 ```
-npm run disable <RPC_NODE>
+npm run disable <OPTIONAL_RPC_NODE>
 ```
 
 Change your witness parameters
 ```
-npm run update <RPC_NODE>
+npm run update <OPTIONAL_RPC_NODE>
 ```
 
 ## Support

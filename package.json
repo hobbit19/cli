@@ -22,7 +22,7 @@
     "dsteem": "^0.10.1",
     "readline-sync": "^1.4.9",
     "steem": "^0.7.1",
-    "witness-essentials-package": "^1.0.2"
+    "witness-essentials-package": "^1.0.5"
   },
   "bugs": {
     "url": "https://github.com/witness-essentials/cli/issues"

@@ -18,16 +18,13 @@ let start = async () => {
 
   if (!read()) return
 
-  let transaction_signing_key: any = essentials.choose_transaction_key(res.signing_key, _g.config.SIGNING_KEYS)
+  let transaction_signing_key = essentials.choose_transaction_key(res.signing_key, _g.config.ACTIVE_KEY, _g.config.SIGNING_KEYS)
 
-  if (!transaction_signing_key || _g.CURRENT_SIGNING_KEY.slice(-39) === '1111111111111111111111111111111114T1Anm') {
+  if (!transaction_signing_key) {
     if (set_properties) {
       return console.error(`Invalid Signing Key Pairs in config. Or witness is disabled, which requires your private active key.`)
-    } else if (!process.env.ACTIVE_KEY) {
-      return console.error(`Invalid Signing Key Pairs in config AND no Private Key in .env`)
     } else {
-      transaction_signing_key = String(process.env.ACTIVE_KEY)
-      set_properties = false
+      return console.error(`Invalid Signing Key Pairs in config AND no Private Key in .env`)
     }
   } else {
     set_properties = true
