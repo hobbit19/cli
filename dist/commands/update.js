@@ -33,7 +33,7 @@ let start = () => __awaiter(this, void 0, void 0, function* () {
         }
     }
     else {
-        set_properties = transaction_signing_key === _g.config.ACTIVE_KEY;
+        set_properties = transaction_signing_key !== _g.config.ACTIVE_KEY;
     }
     yield helpers_1.update_witness(res.signing_key, transaction_signing_key, props, { set_properties });
     console.log(`Update was sucessful. Exiting now.`);

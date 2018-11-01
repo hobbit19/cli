@@ -25,7 +25,7 @@ exports.cmd_update_key = (key, node) => __awaiter(this, void 0, void 0, function
         return;
     }
     else {
-        set_properties = transaction_signing_key === _g.config.ACTIVE_KEY;
+        set_properties = transaction_signing_key !== _g.config.ACTIVE_KEY;
     }
     let props = { new_signing_key: key };
     yield helpers_1.update_witness(_g.CURRENT_SIGNING_KEY, transaction_signing_key, props, { set_properties });

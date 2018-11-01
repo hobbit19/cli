@@ -18,7 +18,7 @@ export let cmd_update_key = async (key: string, node: string) => {
     console.error(`Invalid Signing Key Pairs in config. Or witness is disabled, which requires your private active key.`)
     return
   } else {
-    set_properties = transaction_signing_key === _g.config.ACTIVE_KEY
+    set_properties = transaction_signing_key !== _g.config.ACTIVE_KEY
   }
 
   let props: any = { new_signing_key: key }

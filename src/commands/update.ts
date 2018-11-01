@@ -27,7 +27,7 @@ let start = async () => {
       return console.error(`Invalid Signing Key Pairs in config AND no Private Key in .env`)
     }
   } else {
-    set_properties = transaction_signing_key === _g.config.ACTIVE_KEY
+    set_properties = transaction_signing_key !== _g.config.ACTIVE_KEY
   }
 
   await update_witness(res.signing_key, transaction_signing_key, props, { set_properties })
