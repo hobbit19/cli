@@ -18,7 +18,7 @@ export let update_witness = async (current_signing_key: string, transaction_sign
     if (options.set_properties) {
       await essentials.witness_set_properties(client, _g.witness_data.witness, current_signing_key, props, transaction_signing_key)
     } else {
-      await essentials.update_witness(client, current_signing_key, _g.witness_data, transaction_signing_key)
+      await essentials.update_witness(client, props.new_signing_key.toString(), _g.witness_data, transaction_signing_key)
     }
 
   } catch (error) {

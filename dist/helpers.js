@@ -22,7 +22,7 @@ exports.update_witness = (current_signing_key, transaction_signing_key, props, o
             yield essentials.witness_set_properties(client, _g.witness_data.witness, current_signing_key, props, transaction_signing_key);
         }
         else {
-            yield essentials.update_witness(client, current_signing_key, _g.witness_data, transaction_signing_key);
+            yield essentials.update_witness(client, props.new_signing_key.toString(), _g.witness_data, transaction_signing_key);
         }
     }
     catch (error) {
