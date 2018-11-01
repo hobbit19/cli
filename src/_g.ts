@@ -15,7 +15,7 @@ export let client: dsteem.Client = new dsteem.Client(current_node, { timeout: 8 
 export let witness_data = {
   witness: config.WITNESS,
   props: config.PROPS || {
-    key: '', account_creation_fee: '0.100 STEEM', maximum_block_size: 65536, sbd_interest_rate: 0
+    key: '', account_creation_fee: '3.000 STEEM', maximum_block_size: 65536, sbd_interest_rate: 0
   },
   url: 'https://steemit.com'
 }
