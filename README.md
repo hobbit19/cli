@@ -33,7 +33,7 @@ nano configs/config.json
 
 ## Start
 
-There are 3 commands you can run. If you want to use a specific RPC_NODE, then you can use it as the 2nd argument (except for enable, where it's the 3rd argument)
+There are 4 commands you can run. If you want to use a specific RPC_NODE, then you can use it as optional argument.
 
 Active a specific signing-key
 ```
@@ -50,6 +50,11 @@ Change your witness parameters
 npm run update <OPTIONAL_RPC_NODE>
 ```
 
+Rotate between signing-keys (in config)
+```
+npm run rotate <OPTIONAL_RPC_NODE>
+```
+
 ## Support
 
-If you find this tool useful, consider voting for me (@therealwolf) as a witness (https://steemit.com/~witnesses) or <a href="https://v2.steemconnect.com/sign/account-witness-vote?witness=therealwolf&approve=1">directly with steemconnect</a>.
+Developed by <a href="https://therealwolf.me">@therealwolf</a>

@@ -7,7 +7,8 @@
     "start": "tsc",
     "update": "node dist/commands/update.js",
     "enable": "node dist/commands/enable.js",
-    "disable": "node dist/commands/disable.js"
+    "disable": "node dist/commands/disable.js",
+    "rotate": "node dist/commands/rotate.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,7 @@
     "dsteem": "^0.10.1",
     "readline-sync": "^1.4.9",
     "steem": "^0.7.1",
-    "witness-essentials-package": "^1.0.5"
+    "witness-essentials-package": "^1.0.6"
   },
   "bugs": {
     "url": "https://github.com/witness-essentials/cli/issues"
