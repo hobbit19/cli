@@ -1,5 +1,6 @@
 import * as essentials from 'witness-essentials-package'
 import * as dsteem from 'dsteem'
+import * as readline from 'readline-sync'
 const _g = require('./_g')
 
 interface Options {
@@ -18,6 +19,7 @@ export let update_witness = async (current_signing_key: string, transaction_sign
     if (options.set_properties) {
       await essentials.witness_set_properties(client, _g.witness_data.witness, current_signing_key, props, transaction_signing_key)
     } else {
+      console.log('updating witness')
       await essentials.update_witness(client, props.new_signing_key.toString(), _g.witness_data, transaction_signing_key)
     }
 
@@ -56,6 +58,19 @@ export let get_witness = async (options: Options = { retries: 0 }) => {
       await get_witness(options)
     }
   }
+}
+
+export let request_active_key = (transaction_signing_key) => {
+  let tries = 0
+  console.error(`Invalid Signing Key Pairs in config and/or missing private active key.`)
+  while(tries < 3 && !transaction_signing_key) {
+    let key = readline.question(`Please enter your active-key to continue: `)
+    if(key) {
+      transaction_signing_key = key
+    }
+    tries++
+  }
+  return transaction_signing_key
 }
 
 export let failover = async () => {

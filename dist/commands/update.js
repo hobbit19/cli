@@ -14,23 +14,20 @@ const essentials = require("witness-essentials-package");
 const helpers_1 = require("../helpers");
 const _g = require('../_g');
 let set_properties = false;
-let props = {};
+let props = { new_signing_key: '' };
 let start = () => __awaiter(this, void 0, void 0, function* () {
     let node = process.argv[2];
     let res = yield helpers_1.get_witness({ node });
     _g.witness_data.props = res.props;
     _g.witness_data.url = res.url;
-    _g.CURRENT_SIGNING_KEY = res.signing_key;
+    _g.CURRENT_SIGNING_KEY = props.new_signing_key = res.signing_key;
     if (!read())
         return;
     let transaction_signing_key = essentials.choose_transaction_key(res.signing_key, _g.config.ACTIVE_KEY, _g.config.SIGNING_KEYS);
     if (!transaction_signing_key) {
-        if (set_properties) {
-            return console.error(`Invalid Signing Key Pairs in config. Or witness is disabled, which requires your private active key.`);
-        }
-        else {
-            return console.error(`Invalid Signing Key Pairs in config AND no Private Key in .env`);
-        }
+        transaction_signing_key = helpers_1.request_active_key(transaction_signing_key);
+        if (!transaction_signing_key)
+            return console.log('Invalid key input. Exiting now.');
     }
     else {
         set_properties = transaction_signing_key !== _g.config.ACTIVE_KEY;
@@ -75,7 +72,6 @@ let read = () => {
         process.exit();
     }
     console.log('\Changes:\n----------------');
-    console.log(props);
     let b = readline.keyInYN(`\nDo you want to update your witness now?`);
     return b;
 };
